@@ -183,3 +183,16 @@ function format_for_graph($data, $ambient=false,$temp=false,$ph=false) {
   return json_encode($line_chart_data);
   
 }
+
+function get_latest_stats() {
+  include('config.php');
+  
+  $dbhandle = mysql_connect($hostname, $username, $password) or die("Unable to connect to MySQL");
+  $selected = mysql_select_db("fish",$dbhandle)  or die("Could not select examples");
+  
+  $sql = 'SELECT timestamp, ambient_temp, aquarium_temp, aquarium_ph FROM data ORDER BY timestamp DESC LIMIT 0, 1';
+  $result = mysql_query($sql);
+  
+  return mysql_fetch_array($result, MYSQL_ASSOC);
+
+}
